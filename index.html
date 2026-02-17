@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Майстер налаштування Lampa - Рекомендації торентів</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.1/Sortable.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4CAF50;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .question {
+            margin-bottom: 35px;
+        }
+
+        .question-label {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .option-desc {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .option input:checked ~ .option-content {
+            color: #667eea;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+            border: none;
+        }
+
+        .slider-value {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .priority-list {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: move;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .priority-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #f0f0f0;
+        }
+
+        .sortable-chosen {
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            border: 2px solid #667eea;
+        }
+
+        .sortable-drag {
+            opacity: 1;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .priority-number {
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+
+        .priority-name {
+            flex: 1;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .drag-handle {
+            color: #999;
+            cursor: move;
+            padding: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        button {
+            flex: 1;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .result-container {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .config-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .copy-button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        .hint {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            color: #856404;
+            font-size: 0.95em;
+        }
+
+        .hint strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .input-group input[type="number"],
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Майстер налаштування рекомендацій</h1>
+            <p>Дайте відповідь на питання для створення ідеального конфігу</p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="content">
+            <!-- Шаг 1: Якість контента -->
+            <div class="step active" data-step="1">
+                <h2 class="step-title"><span class="emoji">🎬</span>Якість перегляду</h2>
+                <p class="step-description">Виберіть якість, в якій зазвичай дивитеся контент</p>
+                
+                <div class="question">
+                    <label class="question-label">В якій якості дивитеся контент?</label>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="device_type" value="tv_4k">
+                            <div class="option-content">
+                                <div class="option-title">🎬 4K Ultra HD (2160p)</div>
+                                <div class="option-desc">Максимальна якість для сучасних екранів</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="device_type" value="tv_fhd">
+                            <div class="option-content">
+                                <div class="option-title">📺 Full HD (1080p)</div>
+                                <div class="option-desc">Стандартна висока якість</div>
+                            </div>
+                        </label>
+                        <!-- Резервні варіанти (залишені в коді, але приховані):
+                        <label class="option">
+                            <input type="radio" name="device_type" value="pc_4k">
+                            <div class="option-content">
+                                <div class="option-title">💻 ПК з 4K монітором</div>
+                                <div class="option-desc">Комп'ютер з монітором 2160p и вище</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="device_type" value="pc_fhd">
+                            <div class="option-content">
+                                <div class="option-title">💻 ПК з Full HD монітором</div>
+                                <div class="option-desc">Комп'ютер з монітором 1080p</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="device_type" value="mobile">
+                            <div class="option-content">
+                                <div class="option-title">📱 Мобільний пристрій</div>
+                                <div class="option-desc">Смартфон або планшет</div>
+                            </div>
+                        </label>
+                        -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 2: Технології -->
+            <div class="step" data-step="2">
+                <h2 class="step-title"><span class="emoji">🎨</span>Підтримувані технології</h2>
+                <p class="step-description">Позначте всі технології, які підтримує ваш пристрій</p>
+                
+                <div class="question">
+                    <label class="question-label">Технологии HDR</label>
+                    <div class="hint">
+                        <strong>Підказка:</strong>
+                        Перевірте налаштування телевізора або характеристики монітора
+                    </div>
+                    <div class="checkbox-group">
+                        <label class="option">
+                            <input type="checkbox" name="tech_hdr" value="hdr10">
+                            <div class="option-content">
+                                <div class="option-title">HDR10</div>
+                                <div class="option-desc">Базовий HDR</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="tech_hdr" value="hdr10plus">
+                            <div class="option-content">
+                                <div class="option-title">HDR10+</div>
+                                <div class="option-desc">Динамічний HDR</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="tech_hdr" value="dolby_vision">
+                            <div class="option-content">
+                                <div class="option-title">Dolby Vision</div>
+                                <div class="option-desc">Преміум HDR</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">Звукові технології</label>
+                    <div class="checkbox-group">
+                        <label class="option">
+                            <input type="checkbox" name="tech_audio" value="surround_51">
+                            <div class="option-content">
+                                <div class="option-title">5.1 Surround</div>
+                                <div class="option-desc">Об'ємний звук</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="tech_audio" value="surround_71">
+                            <div class="option-content">
+                                <div class="option-title">7.1 Surround</div>
+                                <div class="option-desc">Розширений об'ємний звук</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="tech_audio" value="dolby_atmos">
+                            <div class="option-content">
+                                <div class="option-title">Dolby Atmos</div>
+                                <div class="option-desc">3D звук</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 3: Інтернет -->
+            <div class="step" data-step="3">
+                <h2 class="step-title"><span class="emoji">🌐</span>Швидкість інтернету</h2>
+                <p class="step-description">Це впливає на можливість комфортного перегляду високої якості</p>
+                
+                <div class="question">
+                    <label class="question-label">Швидкість вашого інтернет-з'єднання</label>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="internet_speed" value="slow">
+                            <div class="option-content">
+                                <div class="option-title">🐌 Повільне (до 10 Мбіт/с)</div>
+                                <div class="option-desc">Підходить для HD и нижче</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="internet_speed" value="medium">
+                            <div class="option-content">
+                                <div class="option-title">🚗 Среднє (10-50 Мбіт/с)</div>
+                                <div class="option-desc">Підходить для Full HD</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="internet_speed" value="fast">
+                            <div class="option-content">
+                                <div class="option-title">🚀 Швидке (50-100 Мбіт/с)</div>
+                                <div class="option-desc">Підходить для 4K</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="internet_speed" value="very_fast">
+                            <div class="option-content">
+                                <div class="option-title">⚡ Дуже швидке (100+ Мбіт/с)</div>
+                                <div class="option-desc">Підходить для будь-якої якості</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">Стабільність з'єднання</label>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="internet_stability" value="unstable">
+                            <div class="option-content">
+                                <div class="option-title">Не стабільно</div>
+                                <div class="option-desc">Часті обриви, скачки швидкості</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="internet_stability" value="stable">
+                            <div class="option-content">
+                                <div class="option-title">Стабільне</div>
+                                <div class="option-desc">Постійна швидкість без просадок</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 4: Мови аудио -->
+            <div class="step" data-step="4">
+                <h2 class="step-title"><span class="emoji">🗣️</span>Мови озвучки</h2>
+                <p class="step-description">Виберіть мови аудіо, які ви бажаєте враховувати при рекомендаціях</p>
+
+                <div class="question">
+                    <label class="question-label">Які мови вам потрібні?</label>
+                    <div class="checkbox-group">
+                        <label class="option">
+                            <input type="checkbox" name="preferred_languages" value="rus" checked>
+                            <div class="option-content">
+                                <div class="option-title">🖕 Окупантська</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="preferred_languages" value="ukr">
+                            <div class="option-content">
+                                <div class="option-title">🇺🇦 Українська</div>
+                            </div>
+                        </label>
+                        <label class="option">
+                            <input type="checkbox" name="preferred_languages" value="eng" checked>
+                            <div class="option-content">
+                                <div class="option-title">🇬🇧 Англійська</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 5: Вибір озвучок -->
+            <div class="step" data-step="5">
+                <h2 class="step-title"><span class="emoji">🎧</span>Ваші озвучки</h2>
+                <p class="step-description">Позначте озвучки, які ви знаєте чи віддаєте перевагу. Тільки вони потраплять до списку налаштування пріоритетів.</p>
+                
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <input type="text" id="voiceSearch" placeholder="🔍 Поиск озвучки..." style="flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;" oninput="filterVoices()">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 15px;">
+                    <button class="btn-secondary" onclick="toggleAllVoices(true)" style="padding: 8px; flex: none;">Відмітити все</button>
+                    <button class="btn-secondary" onclick="toggleAllVoices(false)" style="padding: 8px; flex: none;">Зняти все</button>
+                </div>
+
+                <div class="checkbox-group" id="voiceSelectionGroup" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <!-- Буде заповнено скриптом -->
+                </div>
+            </div>
+
+            <!-- Шаг 6: Пріоритет озвучок -->
+            <div class="step" data-step="6">
+                <h2 class="step-title"><span class="emoji">🎙️</span>Пріоритет озвучок</h2>
+                <p class="step-description">Перетягніть вибрані озвучки в порядку переваги (згори - найулюбленіша)</p>
+                
+                <div class="hint">
+                    <strong>Совет:</strong> Перетягніть елементи, щоб змінити пріоритет.
+                </div>
+
+                <div class="priority-list" id="audioTrackPriority">
+                    <!-- Буде заповнено скриптом на основі Шага 5 -->
+                </div>
+            </div>
+
+            <!-- Шаг 7: Пріоритет налаштувань-->
+            <div class="step" data-step="7">
+                <h2 class="step-title"><span class="emoji">⚖️</span>Пріоритет параметрів</h2>
+                <p class="step-description">Перетягніть параметри в порядку важливості (зверху – найважливіший)</p>
+                
+                <div class="hint">
+                    <strong>Як це працює:</strong>
+                    Система вибиратиме торенти спочатку за верхнім параметром, потім за наступним і т.д.
+                </div>
+
+                <div class="priority-list" id="parameterPriority">
+                    <div class="priority-item" data-value="audio_track">
+                        <div class="priority-number">1</div>
+                        <div class="priority-name">🎙️ Озвучка</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                    <div class="priority-item" data-value="resolution">
+                        <div class="priority-number">2</div>
+                        <div class="priority-name">🎬 Роздільна здатність відео (4K, FHD, HD)</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                    <div class="priority-item" data-value="availability">
+                        <div class="priority-number">3</div>
+                        <div class="priority-name">⚡ Доступність (сіди/піри)</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                    <div class="priority-item" data-value="bitrate">
+                        <div class="priority-number">4</div>
+                        <div class="priority-name">📊 Бітрейт (якість картинки)</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                    <div class="priority-item" data-value="hdr">
+                        <div class="priority-number">5</div>
+                        <div class="priority-name">🌈 HDR/Dolby Vision</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                    <div class="priority-item" data-value="audio_quality">
+                        <div class="priority-number">6</div>
+                        <div class="priority-name">🔊 Якість звука (Atmos, 7.1, 5.1)</div>
+                        <div class="drag-handle">⋮⋮</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 8: Додатково -->
+            <div class="step" data-step="8">
+                <h2 class="step-title"><span class="emoji">⚙️</span>Додаткові налаштування</h2>
+                <p class="step-description">Фінальні налаштування системи</p>
+                
+                <div class="question">
+                    <label class="question-label">Мінімальна кількість сідів для рекомендації</label>
+                    <div class="input-group">
+                        <input type="number" id="min_seeds" min="0" max="100" value="3">
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">Скільки рекомендацій показувати?</label>
+                    <div class="input-group">
+                        <input type="number" id="recommendation_count" min="1" max="10" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Результат -->
+            <div class="step" data-step="9">
+                <h2 class="step-title"><span class="emoji">✅</span>Ваш файл конфігурацій готовий!</h2>
+                <p class="step-description">Скопіюйте конфіг і вставте його в налаштування Лампи</p>
+                
+                <div class="result-container">
+                    <div class="config-output" id="configOutput"></div>
+                    <button class="copy-button" onclick="copyConfig()">📋 Копіювати конфіг</button>
+                </div>
+
+                <div class="hint">
+                    <strong>Як використовувати:</strong>
+                    1. Конфіг автоматично надіслано на ТВ (якщо вказано код сполучення)<br>
+                    2. Або скопіюйте конфіг вручну:<br>
+                    &nbsp;&nbsp;&nbsp;• Відкрийте <strong>Налаштування Лампи</strong><br>
+                    &nbsp;&nbsp;&nbsp;• Розділ <strong>EasyTorrent</strong><br>
+                    &nbsp;&nbsp;&nbsp;• Пункт <strong>Конфігурація (JSON)</strong><br>
+                    &nbsp;&nbsp;&nbsp;• Вставте текст і нажміть OK<br>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-secondary" id="prevBtn" onclick="prevStep()" style="display: none;">← Назад</button>
+                <button class="btn-primary" id="nextBtn" onclick="nextStep()">Далі →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // SUPABASE CONFIG
+        // ═══════════════════════════════════════════════════════════════════
+        const SUPABASE_URL = 'https://wozuelafumpzgvllcjne.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvenVlbGFmdW1wemd2bGxjam5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5Mjg1MDgsImV4cCI6MjA4MjUwNDUwOH0.ODnHlq_P-1wr_D6Jwaba1mLXIVuGBnnUZsrHI8Twdug';
+
+        let currentStep = 1;
+        const totalSteps = 9;
+        let pairCode = null;
+
+        // Озвучки в вигляді числових id (мають співпадать з EasyTorrent плагіном)
+        const AUDIO_TRACKS = [
+            { id: 0,  name: 'Дубляж RU', languages: ['rus'] },
+            { id: 1,  name: 'Дубляж UKR', languages: ['ukr'] }, // 🇺🇦
+            { id: 2,  name: 'Дубляж Пифагор', languages: ['rus'] },
+            { id: 3,  name: 'Дубляж Red Head Sound', languages: ['rus'] },
+            { id: 4,  name: 'Дубляж Videofilm', languages: ['rus'] },
+            { id: 5,  name: 'Дубляж MovieDalen', languages: ['rus'] },
+            { id: 6,  name: 'Дубляж LeDoyen', languages: ['ukr'] }, // 🇺🇦
+            { id: 7,  name: 'Дубляж Whiskey Sound', languages: ['rus'] },
+            { id: 8,  name: 'Дубляж IRON VOICE', languages: ['rus'] },
+            { id: 9,  name: 'Дубляж AlexFilm', languages: ['rus'] },
+            { id: 10, name: 'Дубляж Amedia', languages: ['rus'] },
+            { id: 11, name: 'MVO HDRezka', languages: ['rus', 'ukr'] }, // двумовна студія🇺🇦
+            { id: 12, name: 'MVO LostFilm', languages: ['rus'] },
+            { id: 13, name: 'MVO TVShows', languages: ['rus'] },
+            { id: 14, name: 'MVO Jaskier', languages: ['rus'] },
+            { id: 15, name: 'MVO RuDub', languages: ['rus'] },
+            { id: 16, name: 'MVO LE-Production', languages: ['rus'] },
+            { id: 17, name: 'MVO Кубик в Кубе', languages: ['rus'] },
+            { id: 18, name: 'MVO NewStudio', languages: ['rus'] },
+            { id: 19, name: 'MVO Good People', languages: ['rus'] },
+            { id: 20, name: 'MVO IdeaFilm', languages: ['rus'] },
+            { id: 21, name: 'MVO AMS', languages: ['rus'] },
+            { id: 22, name: 'MVO Baibako', languages: ['rus'] },
+            { id: 23, name: 'MVO Profix Media', languages: ['rus'] },
+            { id: 24, name: 'MVO NewComers', languages: ['rus'] },
+            { id: 25, name: 'MVO GoLTFilm', languages: ['rus'] },
+            { id: 26, name: 'MVO JimmyJ', languages: ['rus'] },
+            { id: 27, name: 'MVO Kerob', languages: ['rus'] },
+            { id: 28, name: 'MVO LakeFilms', languages: ['rus'] },
+            { id: 29, name: 'MVO Twister', languages: ['rus'] },
+            { id: 30, name: 'MVO Voice Project', languages: ['rus'] },
+            { id: 31, name: 'MVO Dragon Money Studio', languages: ['rus'] },
+            { id: 32, name: 'MVO Syncmer', languages: ['rus'] },
+            { id: 33, name: 'MVO ColdFilm', languages: ['rus'] },
+            { id: 34, name: 'MVO SunshineStudio', languages: ['rus'] },
+            { id: 35, name: 'MVO Ultradox', languages: ['rus'] },
+            { id: 36, name: 'MVO Octopus', languages: ['rus'] },
+            { id: 37, name: 'MVO OMSKBIRD', languages: ['rus'] },
+            { id: 38, name: 'AVO Володарский', languages: ['rus'] },
+            { id: 39, name: 'AVO Яроцкий', languages: ['rus'] },
+            { id: 40, name: 'AVO Сербин', languages: ['rus'] },
+            { id: 41, name: 'PRO Gears Media', languages: ['rus'] },
+            { id: 42, name: 'PRO Hamsterstudio', languages: ['rus'] },
+            { id: 43, name: 'PRO P.S.Energy', languages: ['rus'] },
+            { id: 44, name: 'UKR НеЗупиняйПродакшн', languages: ['ukr'] }, // 🇺🇦
+            { id: 45, name: 'Original', languages: ['eng'] }
+        ];
+
+        const AUDIO_TRACK_BY_ID = new Map(AUDIO_TRACKS.map(t => [t.id, t]));
+        const DEFAULT_SELECTED_VOICE_IDS = [1, 44, 6, 11, 0];
+        let selectedVoiceIds = new Set(DEFAULT_SELECTED_VOICE_IDS);
+
+        // Ініциалізація
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPairCode();
+            bindLanguageSelection();
+            renderVoiceSelection();
+            updateProgress();
+            initSortableParameters();
+        });
+
+        // ═══════════════════════════════════════════════════════════════════
+        // PAIR CODE MANAGEMENT
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function checkPairCode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('pairCode');
+            
+            if (code && /^[A-Za-z0-9]{6}$/.test(code)) {
+                pairCode = code.toUpperCase();
+                console.log('[EasyTorrent] Pair code detected:', pairCode);
+            } else {
+                showPairCodeDialog();
+            }
+        }
+
+        function showPairCodeDialog() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 20px;
+                    padding: 40px;
+                    max-width: 500px;
+                    text-align: center;
+                ">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">🔗 Код підключення</h2>
+                    <p style="color: #666; margin-bottom: 25px; line-height: 1.6;">
+                        Введіть 6-значный код підключення із налаштувань Lampa<br>
+                        (цифри і англійські букви)
+                    </p>
+                    <input 
+                        type="text" 
+                        id="pairCodeInput" 
+                        placeholder="ABC123" 
+                        maxlength="6"
+                        style="
+                            width: 100%;
+                            padding: 15px;
+                            font-size: 1.5em;
+                            text-align: center;
+                            text-transform: uppercase;
+                            border: 2px solid #e0e0e0;
+                            border-radius: 12px;
+                            margin-bottom: 20px;
+                            letter-spacing: 0.3em;
+                            font-weight: bold;
+                        "
+                    />
+                    <div style="display: flex; gap: 15px;">
+                        <button 
+                            onclick="skipPairCode()"
+                            style="
+                                flex: 1;
+                                padding: 15px;
+                                background: #e0e0e0;
+                                color: #666;
+                                border: none;
+                                border-radius: 12px;
+                                font-size: 1em;
+                                font-weight: 600;
+                                cursor: pointer;
+                            "
+                        >Пропустити</button>
+                        <button 
+                            onclick="confirmPairCode()"
+                            style="
+                                flex: 1;
+                                padding: 15px;
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                color: white;
+                                border: none;
+                                border-radius: 12px;
+                                font-size: 1em;
+                                font-weight: 600;
+                                cursor: pointer;
+                            "
+                        >Підключити</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.getElementById('pairCodeInput').focus();
+            
+            // Enter для підтвердження
+            document.getElementById('pairCodeInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') confirmPairCode();
+            });
+            
+            window.pairCodeModal = modal;
+        }
+
+        function confirmPairCode() {
+            const input = document.getElementById('pairCodeInput');
+            const code = input.value.toUpperCase().trim();
+            
+            if (!/^[A-Z0-9]{6}$/.test(code)) {
+                alert('Код повинен містити рівно 6 символів (літери та цифри)');
+                return;
+            }
+            
+            pairCode = code;
+            console.log('[EasyTorrent] Pair code set:', pairCode);
+            
+            if (window.pairCodeModal) {
+                document.body.removeChild(window.pairCodeModal);
+                window.pairCodeModal = null;
+            }
+        }
+
+        function skipPairCode() {
+            pairCode = null;
+            console.log('[EasyTorrent] Pair code skipped');
+            
+            if (window.pairCodeModal) {
+                document.body.removeChild(window.pairCodeModal);
+                window.pairCodeModal = null;
+            }
+        }
+
+        function getSelectedLanguages() {
+            return new Set(getCheckboxValues('preferred_languages'));
+        }
+
+        function bindLanguageSelection() {
+            document.querySelectorAll('input[name="preferred_languages"]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    // Якщо користувач вже на кроці вибору озвучок – перемалюємо список
+                    if (currentStep === 5) {
+                        renderVoiceSelection(true);
+                    }
+                });
+            });
+        }
+
+        function renderVoiceSelection() {
+            const group = document.getElementById('voiceSelectionGroup');
+            const allowed = getSelectedLanguages();
+            group.innerHTML = '';
+
+            AUDIO_TRACKS
+                .filter(v => v.languages.some(l => allowed.has(l)))
+                .forEach(v => {
+                const checked = selectedVoiceIds.has(v.id) ? 'checked' : '';
+                const label = document.createElement('label');
+                label.className = 'option';
+                label.innerHTML = `
+                    <input type="checkbox" name="selected_voices" value="${v.id}" ${checked}>
+                    <div class="option-content">
+                        <div class="option-title" style="font-size: 0.9em;">${v.name}</div>
+                    </div>
+                `;
+                group.appendChild(label);
+            });
+
+            // синхроним Set при кліках
+            document.querySelectorAll('input[name="selected_voices"]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const id = parseInt(cb.value, 10);
+                    if (!Number.isFinite(id)) return;
+                    if (cb.checked) selectedVoiceIds.add(id);
+                    else selectedVoiceIds.delete(id);
+                });
+            });
+        }
+
+        function toggleAllVoices(state) {
+            const searchValue = document.getElementById('voiceSearch').value.toLowerCase();
+            document.querySelectorAll('input[name="selected_voices"]').forEach(cb => {
+                const label = cb.closest('label');
+                // Приміняем тільки до видимих елементів
+                if (!searchValue || label.style.display !== 'none') {
+                    cb.checked = state;
+                    const id = parseInt(cb.value, 10);
+                    if (Number.isFinite(id)) {
+                        if (state) selectedVoiceIds.add(id);
+                        else selectedVoiceIds.delete(id);
+                    }
+                }
+            });
+        }
+
+        function filterVoices() {
+            const searchValue = document.getElementById('voiceSearch').value.toLowerCase();
+            const labels = document.querySelectorAll('#voiceSelectionGroup label');
+            
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                if (text.includes(searchValue)) {
+                    label.style.display = '';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
+        }
+
+        function renderVoicePriorityList() {
+            const container = document.getElementById('audioTrackPriority');
+            container.innerHTML = '';
+            
+            // Отримуємо всі вибрані озвучки
+            const selectedSet = new Set(
+                Array.from(document.querySelectorAll('input[name="selected_voices"]:checked'))
+                    .map(cb => parseInt(cb.value, 10))
+                    .filter(n => Number.isFinite(n))
+            );
+            
+            // Формуємо список в правильному порядку:
+            // 1. Спочатку берем озвучки із DEFAULT_SELECTED_VOICE_IDS (в тому порядку)
+            // 2. Потім добавляєм інші вибрані озвучки
+            const ordered = [];
+            
+            DEFAULT_SELECTED_VOICE_IDS.forEach(id => {
+                if (selectedSet.has(id)) {
+                    ordered.push(id);
+                    selectedSet.delete(id);
+                }
+            });
+            
+            // Додаємо інші оставш вибрані озвучки
+            selectedSet.forEach(id => {
+                ordered.push(id);
+            });
+            
+            // Рендерим список
+            ordered.forEach((id, index) => {
+                const itemName = AUDIO_TRACK_BY_ID.get(id) ? AUDIO_TRACK_BY_ID.get(id).name : String(id);
+                const item = document.createElement('div');
+                item.className = 'priority-item';
+                item.dataset.value = String(id);
+                item.innerHTML = `
+                    <div class="priority-number">${index + 1}</div>
+                    <div class="priority-name">${itemName}</div>
+                    <div class="drag-handle">⋮⋮</div>
+                `;
+                container.appendChild(item);
+            });
+
+            // Ініціалізація Sortable для озвучок
+            initSortableVoices();
+        }
+
+        // Ініціалізація SortableJS для пріоритета параметрів 
+        function initSortableParameters() {
+            const container = document.getElementById('parameterPriority');
+            Sortable.create(container, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                dragClass: 'sortable-drag',
+                handle: '.priority-item',
+                onEnd: function() {
+                    updatePriorityNumbers(container);
+                }
+            });
+        }
+
+        // Ініціалізація SortableJS для пріоритета озвучок
+        function initSortableVoices() {
+            const container = document.getElementById('audioTrackPriority');
+            Sortable.create(container, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                dragClass: 'sortable-drag',
+                handle: '.priority-item',
+                onEnd: function() {
+                    updatePriorityNumbers(container);
+                }
+            });
+        }
+
+        function updatePriorityNumbers(container) {
+            const items = container.querySelectorAll('.priority-item');
+            items.forEach((item, index) => {
+                item.querySelector('.priority-number').textContent = index + 1;
+            });
+        }
+
+        // Навігація
+        function nextStep() {
+            // Шаг 4: мови
+            if (currentStep === 4) {
+                const langs = getCheckboxValues('preferred_languages');
+                if (langs.length === 0) {
+                    alert('Выберіть хоча б одину мову');
+                    return;
+                }
+                // Перед кроком вибору озвучок перемалюємо список із фільтрацією
+                renderVoiceSelection(true);
+            }
+
+            // Шаг 5: вибір озвучок
+            if (currentStep === 5) {
+                const selected = document.querySelectorAll('input[name="selected_voices"]:checked');
+                if (selected.length === 0) {
+                    alert('Выберіть хоча б одну озвучку');
+                    return;
+                }
+                renderVoicePriorityList();
+            }
+
+            if (currentStep < totalSteps) {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                    
+                    // Автоматично генеруємо конфіг на останньому кроці
+                    if (currentStep === totalSteps) {
+                        generateConfig();
+                    }
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+
+            document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
+            
+            // На останньому кроці приховуєм кнопку "Далі"
+            if (step === totalSteps) {
+                document.getElementById('nextBtn').style.display = 'none';
+            } else {
+                document.getElementById('nextBtn').style.display = 'block';
+                document.getElementById('nextBtn').textContent = 'Далі →';
+            }
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function validateStep(step) {
+            const currentStepEl = document.querySelector(`.step[data-step="${step}"]`);
+            if (!currentStepEl) return true;
+            const requiredRadios = currentStepEl.querySelectorAll('input[type="radio"]');
+            
+            if (requiredRadios.length > 0) {
+                const radioGroups = {};
+                requiredRadios.forEach(radio => {
+                    if (!radioGroups[radio.name]) radioGroups[radio.name] = false;
+                    if (radio.checked) radioGroups[radio.name] = true;
+                });
+                for (let group in radioGroups) {
+                    if (!radioGroups[group]) {
+                        alert('Будь-ласка, виберіть варіант');
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function getParameterPriority() {
+            const items = document.querySelectorAll('#parameterPriority .priority-item');
+            return Array.from(items).map(item => item.dataset.value);
+        }
+
+        function getAudioTrackPriority() {
+            const items = document.querySelectorAll('#audioTrackPriority .priority-item');
+            return Array.from(items)
+                .map(item => parseInt(item.dataset.value, 10))
+                .filter(n => Number.isFinite(n));
+        }
+
+        // Генерація конфігу
+        function generateConfig() {
+            const config = {
+                version: "2.1",
+                generated: new Date().toISOString(),
+                device: {
+                    type: getRadioValue('device_type'),
+                    supported_hdr: getCheckboxValues('tech_hdr'),
+                    // Стерео (2.0) вважаємо базовим і не питаємо окремо
+                    supported_audio: Array.from(new Set([...getCheckboxValues('tech_audio'), 'stereo']))
+                },
+                network: {
+                    speed: getRadioValue('internet_speed'),
+                    stability: getRadioValue('internet_stability')
+                },
+                parameter_priority: getParameterPriority(),
+                audio_track_priority: getAudioTrackPriority(),
+                preferences: {
+                    min_seeds: parseInt(document.getElementById('min_seeds').value),
+                    recommendation_count: parseInt(document.getElementById('recommendation_count').value),
+                    languages: getCheckboxValues('preferred_languages')
+                },
+                scoring_rules: generateScoringRules()
+            };
+            displayConfig(config);
+            
+            // Відправляємо конфіг, якщо є pairCode
+            if (pairCode) {
+                sendConfigToSupabase(config);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SUPABASE API
+        // ═══════════════════════════════════════════════════════════════════
+        
+        async function sendConfigToSupabase(configObj) {
+            try {
+                const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+                
+                const payload = [{
+                    id: pairCode,
+                    data: configObj,
+                    expires_at: expiresAt
+                }];
+                
+                showStatus('⏳ Відправка конфігурації...', 'info');
+                
+                console.log('[EasyTorrent] Sending to Supabase:', {
+                    url: `${SUPABASE_URL}/rest/v1/tv_configs`,
+                    pairCode: pairCode,
+                    payloadSize: JSON.stringify(payload).length
+                });
+                
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/tv_configs`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    credentials: 'omit',
+                    headers: {
+                        'apikey': ANON_KEY,
+                        'Authorization': `Bearer ${ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'resolution=merge-duplicates,return=minimal'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                console.log('[EasyTorrent] Response status:', res.status);
+                
+                if (!res.ok) {
+                    const text = await res.text();
+                    console.error('[EasyTorrent] Response error:', text);
+                    throw new Error(`HTTP ${res.status}: ${text || res.statusText}`);
+                }
+                
+                console.log('[EasyTorrent] Config sent successfully');
+                showStatus('✅ Конфігурація успішно відправлена на ТВ!', 'success');
+            } catch (error) {
+                console.error('[EasyTorrent] Send error:', error);
+                
+                // Більш детальна інформація про помилку
+                let errorMessage = error.message;
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    errorMessage = 'CORS помилка або мережа недоступна. Перевірте настройки Supabase.';
+                }
+                
+                showStatus(`❌ Ошибка: ${errorMessage}`, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            // Удаляем старое сообщение если есть
+            const oldStatus = document.getElementById('configStatus');
+            if (oldStatus) oldStatus.remove();
+            
+            const status = document.createElement('div');
+            status.id = 'configStatus';
+            status.style.cssText = `
+                margin-top: 20px;
+                padding: 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                text-align: center;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                status.style.background = '#d4edda';
+                status.style.color = '#155724';
+                status.style.border = '2px solid #c3e6cb';
+            } else if (type === 'error') {
+                status.style.background = '#f8d7da';
+                status.style.color = '#721c24';
+                status.style.border = '2px solid #f5c6cb';
+            } else {
+                status.style.background = '#d1ecf1';
+                status.style.color = '#0c5460';
+                status.style.border = '2px solid #bee5eb';
+            }
+            
+            status.textContent = message;
+            
+            const container = document.querySelector('.result-container');
+            container.appendChild(status);
+            
+            // Автоматично прибираємо через 5 секунд для успіху
+            if (type === 'success') {
+                setTimeout(() => {
+                    if (status.parentNode) {
+                        status.style.opacity = '0';
+                        status.style.transition = 'opacity 0.3s ease';
+                        setTimeout(() => status.remove(), 300);
+                    }
+                }, 5000);
+            }
+        }
+
+        function generateScoringRules() {
+            const deviceType = getRadioValue('device_type');
+            const internetSpeed = getRadioValue('internet_speed');
+            const hdrSupport = getCheckboxValues('tech_hdr');
+            const audioSupport = getCheckboxValues('tech_audio');
+            const paramPriority = getParameterPriority();
+            const priorityWeights = {};
+            paramPriority.forEach((param, index) => {
+                priorityWeights[param] = 100 - (index * 15);
+            });
+
+            const rules = {
+                schema: "2.1",
+                base_score: 100,
+                weights: priorityWeights,
+                resolution: { "2160": 0, "1440": 0, "1080": 0, "720": 0, "480": 0 },
+                hdr: { "dolby_vision": 0, "hdr10plus": 0, "hdr10": 0, "sdr": 0 },
+                bitrate_bonus: {
+                    thresholds: [],
+                    // bonus в thresholds буде вже "фінальним" (взваженим), без доп. домноженя в плагіні
+                    missing_penalty: 0
+                },
+                availability: {
+                    min_seeds: parseInt(document.getElementById('min_seeds').value),
+                    below_min_penalty: 0,
+                    log10_multiplier: 0
+                },
+                audio_track: {
+                    curve: "linear",
+                    max_points: 0
+                },
+                audio_quality: {
+                    points: { dolby_atmos: 0, surround_71: 0, surround_51: 0, stereo: 0, unknown: 0 }
+                },
+                special_rules: []
+            };
+
+            const resWeight = priorityWeights['resolution'] / 100;
+            if (deviceType.includes('4k')) {
+                rules.resolution = { "2160": 100 * resWeight, "1440": 50 * resWeight, "1080": 20 * resWeight, "720": -30, "480": -60 };
+            } else if (deviceType.includes('fhd')) {
+                rules.resolution = { "2160": 40 * resWeight, "1440": 50 * resWeight, "1080": 100 * resWeight, "720": 10 * resWeight, "480": -40 };
+            } else {
+                rules.resolution = { "2160": 20 * resWeight, "1440": 40 * resWeight, "1080": 100 * resWeight, "720": 60 * resWeight, "480": 20 * resWeight };
+            }
+
+            const hdrWeight = priorityWeights['hdr'] / 100;
+            if (hdrSupport.includes('dolby_vision')) {
+                rules.hdr = { "dolby_vision": 100 * hdrWeight, "hdr10plus": 80 * hdrWeight, "hdr10": 80 * hdrWeight, "sdr": -40 * hdrWeight };
+            } else if (hdrSupport.includes('hdr10plus') || hdrSupport.includes('hdr10')) {
+                rules.hdr = { "dolby_vision": 60 * hdrWeight, "hdr10plus": 100 * hdrWeight, "hdr10": 100 * hdrWeight, "sdr": -35 * hdrWeight };
+            } else {
+                rules.hdr = { "dolby_vision": -20, "hdr10plus": -15, "hdr10": -15, "sdr": 0 };
+            }
+
+            // Бітрейт: генеруємо бонуси та штрафи вже зваженими (без повторного домноження у плагіні)
+            const bitrateWeight = priorityWeights['bitrate'] / 100;
+            let baseThresholds = [];
+            if (internetSpeed === 'slow') {
+                baseThresholds = [{ min: 0, max: 5, bonus: 20 }, { min: 5, max: 10, bonus: 15 }, { min: 10, max: 20, bonus: 5 }, { min: 20, max: 999, bonus: -10 }];
+            } else if (internetSpeed === 'medium') {
+                baseThresholds = [{ min: 0, max: 5, bonus: 5 }, { min: 5, max: 15, bonus: 20 }, { min: 15, max: 30, bonus: 15 }, { min: 30, max: 999, bonus: 0 }];
+            } else if (internetSpeed === 'fast') {
+                baseThresholds = [{ min: 0, max: 10, bonus: 0 }, { min: 10, max: 20, bonus: 10 }, { min: 20, max: 40, bonus: 25 }, { min: 40, max: 999, bonus: 20 }];
+            } else {
+                baseThresholds = [{ min: 0, max: 15, bonus: 0 }, { min: 15, max: 30, bonus: 15 }, { min: 30, max: 60, bonus: 30 }, { min: 60, max: 999, bonus: 35 }];
+            }
+            rules.bitrate_bonus.thresholds = baseThresholds.map(t => ({ min: t.min, max: t.max, bonus: t.bonus * bitrateWeight }));
+
+            // Штраф за відсутність даних бітрейту (раніше залежав від пріоритету bitrate)
+            const bitrateIndex = paramPriority.indexOf('bitrate');
+            const missingBase = (bitrateIndex === 0 ? -50 : (bitrateIndex === 1 ? -30 : -15));
+            rules.bitrate_bonus.missing_penalty = missingBase * bitrateWeight;
+
+            // Доступність/сіди: штраф нижче мінімума і бонус вище — тоже генеруєм як фінальні числа
+            const availWeight = priorityWeights['availability'] / 100;
+            const availIndex = paramPriority.indexOf('availability');
+            const belowBase = (availIndex === 0 ? -80 : (availIndex === 1 ? -40 : -20));
+            rules.availability.below_min_penalty = belowBase * availWeight;
+            rules.availability.log10_multiplier = 12 * availWeight;
+
+            // Озвучка: нормалізований внесок (не залежить від довжини переліку пріоритетів)
+            const audioTrackWeight = priorityWeights['audio_track'] / 100;
+            rules.audio_track.max_points = 100 * audioTrackWeight;
+
+            // Якість звуку: очки лише за те, що пристрій підтримує (без штрафів за "зайве")
+            const aqWeight = priorityWeights['audio_quality'] / 100;
+            const supports = new Set(audioSupport || []);
+            // Стерео считаем дефолтом — не даём за него бонусных очков
+            const baseAQ = { dolby_atmos: 80, surround_71: 60, surround_51: 40, stereo: 0, unknown: 0 };
+            rules.audio_quality.points = {
+                dolby_atmos: (supports.has('dolby_atmos') ? baseAQ.dolby_atmos : 0) * aqWeight,
+                surround_71: (supports.has('surround_71') ? baseAQ.surround_71 : 0) * aqWeight,
+                surround_51: (supports.has('surround_51') ? baseAQ.surround_51 : 0) * aqWeight,
+                stereo: 0,
+                unknown: 0
+            };
+
+            // Special rules: переносимо приховану логіку із плагіна в конфіг (генеруєм тільки коли вона треба)
+            if (deviceType.includes('4k') && paramPriority[0] === 'resolution') {
+                rules.special_rules = [
+                    { key: "4k_bonus_2160_bitrate", if: { resolution: 2160, bitrate_min: 1 }, bonus: 80 },
+                    { key: "4k_bonus_2160", if: { resolution: 2160 }, bonus: 30 },
+                    { key: "4k_bonus_1080_seeds", if: { resolution: 1080, seeds_min: 51, bitrate_min: 1 }, bonus: 10 }
+                ];
+            }
+
+            return rules;
+        }
+
+        function getRadioValue(name) {
+            const radio = document.querySelector(`input[name="${name}"]:checked`);
+            return radio ? radio.value : null;
+        }
+
+        function getCheckboxValues(name) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function displayConfig(config) {
+            const output = document.getElementById('configOutput');
+            output.textContent = JSON.stringify(config, null, 2);
+        }
+
+        function copyConfig() {
+            const output = document.getElementById('configOutput');
+            const textArea = document.createElement('textarea');
+            textArea.value = output.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Скопировано!';
+            setTimeout(() => btn.textContent = originalText, 2000);
+        }
+    </script>
+</body>
+</html>
+
