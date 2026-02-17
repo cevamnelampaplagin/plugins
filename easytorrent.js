@@ -36,11 +36,11 @@
             "stability": "stable"
         },
         "parameter_priority": ["audio_track", "resolution", "availability", "bitrate", "hdr", "audio_quality"],
-        "audio_track_priority": [2, 5, 6, 3, 4, 0, 11, 12, 13, 14, 15, 16, 17, 18, 31, 32, 45],
+        "audio_track_priority": [1, 44, 6, 11, 0],
         "preferences": {
             "min_seeds": 3,
             "recommendation_count": 3,
-            "languages": ["rus"]
+            "languages": ["ukr"]
         },
         "scoring_rules": {
             "schema": "2.1",
