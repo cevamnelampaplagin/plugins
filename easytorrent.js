@@ -12,7 +12,7 @@
     // Supabase config
     const SUPABASE_URL = 'https://wozuelafumpzgvllcjne.supabase.co';
     const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvenVlbGFmdW1wemd2bGxjam5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5Mjg1MDgsImV4cCI6MjA4MjUwNDUwOH0.ODnHlq_P-1wr_D6Jwaba1mLXIVuGBnnUZsrHI8Twdug';
-    const WIZARD_URL = 'https://cevamnelamlaplagin.github.io/plugins/';
+    const WIZARD_URL = 'https://cevamnelampaplagin.github.io/plugins/';
 
     let pollingInterval = null;
 
