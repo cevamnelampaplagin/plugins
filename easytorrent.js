@@ -10,8 +10,8 @@
     const PLUGIN_ICON = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg>';
 
     // Supabase config
-    const SUPABASE_URL = 'https://wozuelafumpzgvllcjne.supabase.co';
-    const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvenVlbGFmdW1wemd2bGxjam5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5Mjg1MDgsImV4cCI6MjA4MjUwNDUwOH0.ODnHlq_P-1wr_D6Jwaba1mLXIVuGBnnUZsrHI8Twdug';
+    const SUPABASE_URL = 'https://xozswgtbcjorxzabawmk.supabase.co';
+    const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvenN3Z3RiY2pvcnh6YWJhd21rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyODAzODksImV4cCI6MjA4Njg1NjM4OX0.ajYvu0KecRKZGLge_682oU5MD-WiQSM2jNZwuGHw2Uo';
     const WIZARD_URL = 'https://cevamnelampaplagin.github.io/plugins/';
 
     let pollingInterval = null;
