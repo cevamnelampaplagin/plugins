@@ -411,7 +411,7 @@
             <div class="progress-fill" id="progressFill"></div>
         </div>
         <div class="content">
-            <!-- Шаг 1: Якість контента -->
+            <!-- Крок 1: Якість контента -->
             <div class="step active" data-step="1">
                 <h2 class="step-title"><span class="emoji">🎬</span>Якість перегляду</h2>
                 <p class="step-description">Виберіть якість, в якій зазвичай дивитеся контент</p>
@@ -460,7 +460,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 2: Технології -->
+            <!-- Крок 2: Технології -->
             <div class="step" data-step="2">
                 <h2 class="step-title"><span class="emoji">🎨</span>Підтримувані технології</h2>
                 <p class="step-description">Позначте всі технології, які підтримує ваш пристрій</p>
@@ -524,7 +524,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 3: Інтернет -->
+            <!-- Крок 3: Інтернет -->
             <div class="step" data-step="3">
                 <h2 class="step-title"><span class="emoji">🌐</span>Швидкість інтернету</h2>
                 <p class="step-description">Це впливає на можливість комфортного перегляду високої якості</p>
@@ -584,7 +584,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 4: Мови аудио -->
+            <!-- Крок 4: Мови аудио -->
             <div class="step" data-step="4">
                 <h2 class="step-title"><span class="emoji">🗣️</span>Мови озвучки</h2>
                 <p class="step-description">Виберіть мови аудіо, які ви бажаєте враховувати при рекомендаціях</p>
@@ -614,7 +614,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 5: Вибір озвучок -->
+            <!-- Крок 5: Вибір озвучок -->
             <div class="step" data-step="5">
                 <h2 class="step-title"><span class="emoji">🎧</span>Ваші озвучки</h2>
                 <p class="step-description">Позначте озвучки, які ви знаєте чи віддаєте перевагу. Тільки вони потраплять до списку налаштування пріоритетів.</p>
@@ -633,7 +633,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 6: Пріоритет озвучок -->
+            <!-- Крок 6: Пріоритет озвучок -->
             <div class="step" data-step="6">
                 <h2 class="step-title"><span class="emoji">🎙️</span>Пріоритет озвучок</h2>
                 <p class="step-description">Перетягніть вибрані озвучки в порядку переваги (згори - найулюбленіша)</p>
@@ -643,11 +643,11 @@
                 </div>
 
                 <div class="priority-list" id="audioTrackPriority">
-                    <!-- Буде заповнено скриптом на основі Шага 5 -->
+                    <!-- Буде заповнено скриптом на основі Кроку 5 -->
                 </div>
             </div>
 
-            <!-- Шаг 7: Пріоритет налаштувань-->
+            <!-- Крок 7: Пріоритет налаштувань-->
             <div class="step" data-step="7">
                 <h2 class="step-title"><span class="emoji">⚖️</span>Пріоритет параметрів</h2>
                 <p class="step-description">Перетягніть параметри в порядку важливості (зверху – найважливіший)</p>
@@ -691,7 +691,7 @@
                 </div>
             </div>
 
-            <!-- Шаг 8: Додатково -->
+            <!-- Крок 8: Додатково -->
             <div class="step" data-step="8">
                 <h2 class="step-title"><span class="emoji">⚙️</span>Додаткові налаштування</h2>
                 <p class="step-description">Фінальні налаштування системи</p>
@@ -741,7 +741,7 @@
 
     <script>
         // ═══════════════════════════════════════════════════════════════════
-        // SUPABASE CONFIG
+        // SUPABASE CONFIG cevamnelampaplagin
         // ═══════════════════════════════════════════════════════════════════
         const SUPABASE_URL = 'https://xozswgtbcjorxzabawmk.supabase.co';
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvenN3Z3RiY2pvcnh6YWJhd21rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyODAzODksImV4cCI6MjA4Njg1NjM4OX0.ajYvu0KecRKZGLge_682oU5MD-WiQSM2jNZwuGHw2Uo';
@@ -758,7 +758,7 @@
             { id: 3,  name: 'Дубляж Red Head Sound', languages: ['rus'] },
             { id: 4,  name: 'Дубляж Videofilm', languages: ['rus'] },
             { id: 5,  name: 'Дубляж MovieDalen', languages: ['rus'] },
-            { id: 6,  name: 'Дубляж LeDoyen', languages: ['ukr'] }, // 🇺🇦
+            { id: 6,  name: 'Дубляж LeDoyen', languages: ['rus', 'ukr'] }, // 🇺🇦
             { id: 7,  name: 'Дубляж Whiskey Sound', languages: ['rus'] },
             { id: 8,  name: 'Дубляж IRON VOICE', languages: ['rus'] },
             { id: 9,  name: 'Дубляж AlexFilm', languages: ['rus'] },
@@ -774,7 +774,7 @@
             { id: 19, name: 'MVO Good People', languages: ['rus'] },
             { id: 20, name: 'MVO IdeaFilm', languages: ['rus'] },
             { id: 21, name: 'MVO AMS', languages: ['rus'] },
-            { id: 22, name: 'MVO Baibako', languages: ['rus'] },
+            { id: 22, name: 'MVO Baibako', languages: ['rus', 'ukr'] }, // двомовна студія🇺🇦
             { id: 23, name: 'MVO Profix Media', languages: ['rus'] },
             { id: 24, name: 'MVO NewComers', languages: ['rus'] },
             { id: 25, name: 'MVO GoLTFilm', languages: ['rus'] },
@@ -1290,12 +1290,12 @@
                     errorMessage = 'CORS помилка або мережа недоступна. Перевірте настройки Supabase.';
                 }
                 
-                showStatus(`❌ Ошибка: ${errorMessage}`, 'error');
+                showStatus(`❌ Помилка: ${errorMessage}`, 'error');
             }
         }
 
         function showStatus(message, type) {
-            // Удаляем старое сообщение если есть
+            // Видаляємо старе повідомлення якщо є
             const oldStatus = document.getElementById('configStatus');
             if (oldStatus) oldStatus.remove();
             
@@ -1360,7 +1360,7 @@
                 hdr: { "dolby_vision": 0, "hdr10plus": 0, "hdr10": 0, "sdr": 0 },
                 bitrate_bonus: {
                     thresholds: [],
-                    // bonus в thresholds буде вже "фінальним" (взваженим), без доп. домноженя в плагіні
+                    // bonus в thresholds буде вже "фінальним" (взваженим), без доп. домноженя в плагіні cevamnelampaplagin
                     missing_penalty: 0
                 },
                 availability: {
@@ -1429,7 +1429,7 @@
             // Якість звуку: очки лише за те, що пристрій підтримує (без штрафів за "зайве")
             const aqWeight = priorityWeights['audio_quality'] / 100;
             const supports = new Set(audioSupport || []);
-            // Стерео считаем дефолтом — не даём за него бонусных очков
+            // Стерео рахуємо дефолтом — не дємо за ньго бонусних очок
             const baseAQ = { dolby_atmos: 80, surround_71: 60, surround_51: 40, stereo: 0, unknown: 0 };
             rules.audio_quality.points = {
                 dolby_atmos: (supports.has('dolby_atmos') ? baseAQ.dolby_atmos : 0) * aqWeight,
@@ -1476,7 +1476,7 @@
             document.body.removeChild(textArea);
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '✓ Скопировано!';
+            btn.textContent = '✓ Скопійовано!';
             setTimeout(() => btn.textContent = originalText, 2000);
         }
     </script>
