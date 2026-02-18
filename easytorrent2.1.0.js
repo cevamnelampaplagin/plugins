@@ -2317,7 +2317,7 @@ function normalizeTitle(input) {
                     'font-size': '1.2em',
                     'margin-bottom': '0.3em'
                 });
-                item.append('<div style="font-size: 0.9em; padding: 0 1.2em; line-height: 1.4;">Автор: DarkestClouds<br>Система рекомендацій торрентів на основі якості, HDR та озвучки</div>');
+                item.append('<div style="font-size: 0.9em; padding: 0 1.2em; line-height: 1.4;">Автор: DarkestClouds<br>Переклад(українізація): cevamnelampaplugin<br>Система рекомендацій торрентів на основі якості, HDR та озвучки</div>');
             }
         });
 
