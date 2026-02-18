@@ -2530,7 +2530,16 @@ function normalizeTitle(input) {
         });
         
         // Генеруємо QR-код
-        setTimeout((()=>{const e=document.getElementById("qrCodeContainer");if(e&&Lampa.Utils&&Lampa.Utils.qrcode)try{Lampa.Utils.qrcode(t,e)}catch(t){e.innerHTML='<p style="color: #f44336;">Помилка генерації QR-кода</p>'}}),100);
+        setTimeout(() => {
+            const qrContainer = document.getElementById('qrCodeContainer');
+            if (qrContainer && Lampa.Utils && Lampa.Utils.qrcode) {
+                try {
+                    Lampa.Utils.qrcode(qrUrl, qrContainer);
+                } catch (e) {
+                    qrContainer.innerHTML = '<p style="color: #f44336;">Помилка генерації QR-кода</p>';
+                }
+            }
+        }, 100);
         
         // Запускаємо polling
         let lastUpdated = null;
