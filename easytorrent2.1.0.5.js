@@ -93,7 +93,7 @@
         show_scores: { ru: 'Показувати оцінки', en: 'Show scores', ua: 'Показувати оцінки' },
         show_scores_desc: { ru: 'Відображати оцінку якості торрента', en: 'Display torrent quality score', ua: 'Відображати оцінку якості торренту' },
         ideal_badge: { ru: 'ідеальний', en: 'Ideal', ua: 'Ідеальний' },
-        recommended_badge: { ru: 'Рекомендуется', en: 'Recommended', ua: 'Рекомендується' },
+        recommended_badge: { ru: 'Рекомендується', en: 'Recommended', ua: 'Рекомендується' },
         config_json: { ru: 'Конфігурація (JSON)', en: 'Configuration (JSON)', ua: 'Конфігурація (JSON)' },
         config_json_desc: { ru: 'Натисніть , щоб переглянути або змінити налаштування', en: 'Click to view or change settings', ua: 'Натисніть для перегляду або змінити налаштування' },
         config_view: { ru: 'Переглянути параметри', en: 'View parameters', ua: 'Переглянути параметри' },
